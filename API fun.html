@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+	<title>Cocktail API</title>
+	<meta charset="utf-8"/>
+	<script>
+		function getCocktail() {
+			/* Step 1: Make instance of request object...
+			...to make HTTP request after page is loaded*/
+			request = new XMLHttpRequest();
+			console.log("1 - request object created");
+ 
+			// Step 2: Set the URL for the AJAX request to be the JSON file
+ 
+		request.open("GET", "https://api.openbrewerydb.org/breweries", true)
+
+			console.log("2 - opened request file");
+ 
+			// Step 3: set up event handler/callback
+
+			request.onreadystatechange = function() {
+				console.log("3 - readystatechange event fired.");
+ 
+				if (request.readyState == 4 && request.status == 200) {
+
+					// Step 5: wait for done + success
+					console.log("5 - response received");
+					result = request.responseText;
+					
+					// parse data
+					breweries = JSON.parse(result);
+					
+					// getting content from API to display on screen
+					var content = "";
+					content += "Brewery: " + breweries[0]["name"] + "<br>"; 
+					content += "Brewery type: " + breweries[0]["brewery_type"] + "<br>"; 
+					content += "Location: " + breweries[0]["city"] + ", " + breweries[0]["state"] + "<br><br>";
+					
+					content += "Brewery: " + breweries[5]["name"] + "<br>"; 
+					content += "Brewery type: " + breweries[5]["brewery_type"] + "<br>"; 
+					content += "Location: " + breweries[5]["city"] + ", " + breweries[5]["state"] + "<br><br>";
+
+					content += "Brewery: " + breweries[10]["name"] + "<br>"; 
+					content += "Brewery type: " + breweries[10]["brewery_type"] + "<br>"; 
+					content += "Location: " + breweries[10]["city"] + ", " + breweries[10]["state"] + "<br><br>";
+					
+					content += "Brewery: " + breweries[15]["name"] + "<br>"; 
+					content += "Brewery type: " + breweries[15]["brewery_type"] + "<br>"; 
+					content += "Location: " + breweries[15]["city"] + ", " + breweries[15]["state"] + "<br><br>";					
+					document.getElementById("data").innerHTML = content;
+					
+					
+				}
+				else if (request.readyState == 4 && request.status != 200) {
+
+					document.getElementById("data").innerHTML = "Something is wrong!  Check the logs to see where this went off the rails";
+
+				}
+
+				else if (request.readyState == 3) {
+
+					document.getElementById("data").innerHTML = "Too soon!  Try again";
+
+				}
+
+			}
+		// Step 4: fire off the HTTP request
+			request.send();
+			console.log("4 - Request sent");
+		}
+	</script>
+</head>
+
+
+<body onload="getCocktail()">
+
+	<h1>Breweries API</h1>
+	<div id="data"></div>
+	
+	<h2>What is this API?</h2>
+	<p>I selected the Open Breqery DB for my API. It is an API that has information on brweries, cideries, brewpubs, and bottleshops. This API has the functionality to return a list of breweries, to get a single brewery, to search for breweries based on a search term, and return a list of names and ids of breweries based on a search term.</p>
+	
+	<h2>What options did I use for this API request?</h2>
+	<p>I used the list breweries capabiltiy and accessed the first, 6th, 16th, and 26th brewery on the list. The API link I used was: https://api.openbrewerydb.org/breweries</p>
+	
+	<h2>What are two applications in which this API would be helpful?</h2>
+	<p>If you're in a new city you may not know any places to go out to. Using this API you could search based on what city you're in to find local breweries to explore.</p>
+	<p>If you want to impress your friends with the exact location of the brewery you're about to go to, you can get all information on the specific brewery and impress them with knowing the exact longitude and latitude of the brewery!</p>
+	
+	<h2>Citations</h2>
+	<p>Found this API on: https://apilist.fun/</p>
+	<p>Website for Open Brewery DB: https://www.openbrewerydb.org/</p>
+	
+</body>
+</html>
